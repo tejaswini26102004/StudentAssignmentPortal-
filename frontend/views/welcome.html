@@ -1,0 +1,25 @@
+<div class="card">
+    <div class="welcome-box">
+        <h2>👋 Welcome, {{userName}}!</h2>
+        <p>You are logged in to the Assignment Portal</p>
+        <div class="role-badge">{{userRole}}</div>
+
+        <!-- Teacher welcome message -->
+        <div ng-if="isTeacher()">
+            <p style="color:#555; margin-bottom:20px;">
+                As a <strong>Teacher</strong>, you can create, edit, delete assignments and view student submissions.
+            </p>
+        </div>
+
+        <!-- Student welcome message -->
+        <div ng-if="isStudent()">
+            <p style="color:#555; margin-bottom:20px;">
+                As a <strong>Student</strong>, you can view assignments and submit your work.
+            </p>
+        </div>
+
+        <a href="#!/assignments">
+            <button class="btn btn-success">📋 Go to Assignments</button>
+        </a>
+    </div>
+</div>

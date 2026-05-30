@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html ng-app="assignmentApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Assignment Portal</title>
+
+    <!-- AngularJS -->
+    <script src="node_modules/angular/angular.min.js"></script>
+    <script src="node_modules/angular-route/angular-route.min.js"></script>
+
+    <!-- Our App Files -->
+    <script src="js/app.js"></script>
+    <script src="js/authService.js"></script>
+    <script src="js/assignmentService.js"></script>
+    <script src="js/authController.js"></script>
+    <script src="js/assignmentController.js"></script>
+
+    <style>
+        /* ===== GLOBAL STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .navbar h1 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .navbar a, .navbar button {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .navbar a:hover, .navbar button:hover {
+            background: rgba(255,255,255,0.35);
+        }
+
+        /* ===== MAIN CONTENT AREA ===== */
+        .main-container {
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* ===== CARD ===== */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: #5a3d8a;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+
+        /* ===== FORM STYLES ===== */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #555;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #667eea;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            color: white;
+        }
+
+        .btn-small {
+            padding: 7px 16px;
+            font-size: 13px;
+        }
+
+        /* ===== ASSIGNMENT CARD ===== */
+        .assignment-card {
+            background: #f8f7ff;
+            border-left: 5px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .assignment-card h3 {
+            color: #5a3d8a;
+            margin-bottom: 8px;
+        }
+
+        .assignment-card p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .assignment-actions {
+            margin-top: 12px;
+            display: flex;
+            gap: 10px;
+        }
+
+        /* ===== ALERTS ===== */
+        .alert {
+            padding: 12px 18px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* ===== LINK STYLE ===== */
+        .link {
+            color: #667eea;
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 14px;
+        }
+
+        /* ===== WELCOME PAGE ===== */
+        .welcome-box {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .welcome-box h2 {
+            font-size: 32px;
+            color: #5a3d8a;
+            margin-bottom: 10px;
+        }
+
+        .welcome-box p {
+            color: #888;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+
+        .role-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar — only show when logged in -->
+    <div class="navbar" ng-if="isLoggedIn()">
+        <h1>📚 Assignment Portal</h1>
+        <div>
+            <span style="color:white; font-size:14px;">Hello, {{getUserName()}}</span>
+            <a href="#!/welcome">Home</a>
+            <a href="#!/assignments">Assignments</a>
+            <button ng-click="logout()">Logout</button>
+        </div>
+    </div>
+
+    <!-- This is where each page loads -->
+    <div class="main-container">
+        <div ng-view></div>
+    </div>
+
+    <!-- Root controller wraps everything -->
+    <script>
+        // This runs at the app level for navbar logic
+        angular.module('assignmentApp').run(function($rootScope, $location, authService) {
+            // Check login on every page change
+            $rootScope.$on('$routeChangeStart', function(event, next) {
+                var publicPages = ['/login', '/register'];
+                var isPublic = publicPages.indexOf($location.path()) !== -1;
+
+                if (!authService.isLoggedIn() && !isPublic) {
+                    $location.path('/login');
+                }
+            });
+
+            // Make these available in navbar
+            $rootScope.isLoggedIn = function() {
+                return authService.isLoggedIn();
+            };
+
+            $rootScope.getUserName = function() {
+                return authService.getUserName();
+            };
+
+            $rootScope.logout = function() {
+                authService.logout();
+                $location.path('/login');
+            };
+        });
+    </script>
+
+</body>
+</html>

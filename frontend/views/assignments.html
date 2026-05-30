@@ -1,0 +1,89 @@
+<div class="card">
+    <h2>📋 Assignments</h2>
+
+    <!-- Messages -->
+    <div class="alert alert-success" ng-if="message && !isError">{{message}}</div>
+    <div class="alert alert-error" ng-if="message && isError">{{message}}</div>
+
+    <!-- Create button — only Teachers see this -->
+    <div ng-if="isTeacher()" style="margin-bottom:20px;">
+        <button class="btn btn-success" ng-click="showCreateForm()" ng-if="!showForm">
+            + Create New Assignment
+        </button>
+    </div>
+
+    <!-- Create / Edit Form — only visible when showForm is true -->
+    <div class="assignment-card" ng-if="showForm" style="border-left-color: #11998e;">
+        <h3>{{editMode ? 'Edit Assignment' : 'New Assignment'}}</h3>
+
+        <div class="form-group">
+            <label>Title</label>
+            <input type="text" ng-model="formData.title" placeholder="Assignment title" />
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+            <textarea ng-model="formData.description" rows="4" placeholder="Assignment description"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Due Date</label>
+            <input type="date" ng-model="formData.dueDate" />
+        </div>
+
+        <div class="assignment-actions">
+            <button class="btn btn-success btn-small" ng-click="saveAssignment()">
+                {{editMode ? 'Update' : 'Create'}}
+            </button>
+            <button class="btn btn-danger btn-small" ng-click="cancelForm()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Assignment List -->
+    <div ng-if="assignments.length === 0" style="color:#888; text-align:center; padding:20px;">
+        No assignments found.
+    </div>
+
+    <div class="assignment-card" ng-repeat="a in assignments">
+        <h3>{{a.title}}</h3>
+        <p>{{a.description}}</p>
+        <p><strong>Due:</strong> {{a.dueDate | date:'mediumDate'}}</p>
+
+        <!-- Teacher actions -->
+        <div class="assignment-actions" ng-if="isTeacher()">
+            <button class="btn btn-warning btn-small" ng-click="showEditForm(a)">✏️ Edit</button>
+            <button class="btn btn-danger btn-small" ng-click="deleteAssignment(a.assignmentId)">🗑️ Delete</button>
+            <button class="btn btn-success btn-small" ng-click="viewSubmissions(a.assignmentId)">👁️ Submissions</button>
+        </div>
+
+        <!-- Student actions -->
+        <div class="assignment-actions" ng-if="isStudent()">
+            <button class="btn btn-success btn-small" ng-click="showSubmitAssignment(a.assignmentId)">📤 Submit</button>
+        </div>
+    </div>
+
+    <!-- Submit Form for Students -->
+    <div class="assignment-card" ng-if="showSubmitForm" style="border-left-color: #11998e;">
+        <h3>Submit Assignment</h3>
+        <div class="form-group">
+            <label>Your Answer</label>
+            <textarea ng-model="submitData.submissionText" rows="5" placeholder="Write your answer here..."></textarea>
+        </div>
+        <div class="assignment-actions">
+            <button class="btn btn-success btn-small" ng-click="submitAssignment()">Submit</button>
+            <button class="btn btn-danger btn-small" ng-click="showSubmitForm = false">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Submissions list for Teachers -->
+    <div ng-if="showSubmissions" class="card" style="margin-top:20px;">
+        <h3 style="color:#5a3d8a; margin-bottom:15px;">Student Submissions</h3>
+        <div ng-if="submissions.length === 0" style="color:#888;">No submissions yet.</div>
+        <div class="assignment-card" ng-repeat="s in submissions">
+            <p><strong>Student ID:</strong> {{s.studentId}}</p>
+            <p><strong>Answer:</strong> {{s.submissionText}}</p>
+            <p><strong>Submitted:</strong> {{s.submittedAt | date:'medium'}}</p>
+        </div>
+        <button class="btn btn-danger btn-small" ng-click="showSubmissions = false" style="margin-top:10px;">Close</button>
+    </div>
+</div>

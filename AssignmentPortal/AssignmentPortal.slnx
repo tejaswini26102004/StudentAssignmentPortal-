@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="AssignmentPortal.API/AssignmentPortal.API.csproj" />
+  <Project Path="AssignmentPortal.Tests/AssignmentPortal.Tests.csproj" />
+</Solution>
