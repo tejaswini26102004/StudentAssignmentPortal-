@@ -1,3 +1,13 @@
+🎓 Full Stack Web Applications
+Two full-stack web applications built as part of a Windows Web Application assignment using ASP.NET Core Web API, SQL Server, and modern frontend frameworks.
+
+📁 Projects Overview
+Project 1Project 2NameStudent Assignment PortalOnline Quiz Management SystemBackendASP.NET Core Web API + ADO.NETASP.NET Core Web API + Entity Framework CoreFrontendAngularJSReactDatabaseSQL Server (Manual SQL)SQL Server (Code First Migrations)AuthJWT + Role-basedJWT + Role-basedBackend TestsxUnit + Moq (12 tests)xUnit + Moq (15 tests)Frontend TestsJasmine + Karma (15 tests)Jest (20 tests)E2E TestsNoneSelenium (12 tests)
+
+👤 Test Accounts
+RoleEmailPasswordTeacherteacher@test.comTest@123Studentstudent@test.comTest@123
+
+
 📘 Project 1 — Student Assignment Portal
 🔧 Tech Stack
 
